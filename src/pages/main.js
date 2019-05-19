@@ -109,7 +109,10 @@ export default class Main extends Component {
                     <TouchableOpacity style={styles.button}>
                         <Text style={styles.textButton}>0</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button}
+                    onPress={() => {
+                        this.props.navigation.navigate('Camera')
+                    }}>
                         <Text style={styles.textButton}>-</Text>
                     </TouchableOpacity>
                 </View>
