@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default class Main extends Component {
     static navigationOptions = {
@@ -10,7 +10,7 @@ export default class Main extends Component {
             fontFamily: 'baloo_bhai',
             fontSize: 24
         }
-    }
+    };
     state = {
         date: '',
         hour: '',
@@ -30,12 +30,12 @@ export default class Main extends Component {
         if (this.state.code.length >= 4) {
             return
         }
-        this.setState({ code: this.state.code + number })
+        this.setState({code: this.state.code + number})
     }
 
     onPressBack = () => {
-        var number = this.state.code.slice(0, -1);
-        this.setState({ code: number })
+        let number = this.state.code.slice(0, -1);
+        this.setState({code: number})
     };
     onPressForward = () => {
         this.setState({})
@@ -43,12 +43,12 @@ export default class Main extends Component {
 
     getCurrentHour() {
         setInterval(() => {
-            var date = new Date();
-            var day = date.getDate();
-            var month = String(date.getMonth() + 1).padStart(2, "0");
-            var year = date.getFullYear();
-            var hours = String(date.getHours()).padStart(2, "0");
-            var min = String(date.getMinutes()).padStart(2, "0");
+            let date = new Date();
+            let day = date.getDate();
+            let month = String(date.getMonth() + 1).padStart(2, "0");
+            let year = date.getFullYear();
+            let hours = String(date.getHours()).padStart(2, "0");
+            let min = String(date.getMinutes()).padStart(2, "0");
             this.setState({
                 date: day + '/' + month + '/' + year,
                 hour: hours + ':' + min,
@@ -57,7 +57,7 @@ export default class Main extends Component {
     }
 
     render() {
-        const { code } = this.state;
+        const {code} = this.state;
         return (
             <View style={styles.container}>
                 <Text style={styles.textDate}>{this.state.date}</Text>
@@ -67,15 +67,15 @@ export default class Main extends Component {
                 <Text style={styles.textNumber}>{code}</Text>
                 <View style={styles.containerRow}>
                     <TouchableOpacity style={styles.button}
-                        onPress={this.inserNumber.bind(this, "1")}>
+                                      onPress={this.inserNumber.bind(this, "1")}>
                         <Text style={styles.textButton}>1</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}
-                        onPress={this.inserNumber.bind(this, "2")}>
+                                      onPress={this.inserNumber.bind(this, "2")}>
                         <Text style={styles.textButton}>2</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}
-                        onPress={this.inserNumber.bind(this, "3")}>
+                                      onPress={this.inserNumber.bind(this, "3")}>
                         <Text style={styles.textButton}>3</Text>
                     </TouchableOpacity>
                 </View>
@@ -103,16 +103,16 @@ export default class Main extends Component {
                 </View>
                 <View style={styles.containerRow}>
                     <TouchableOpacity style={styles.button}
-                        onPress={this.onPressBack}>
+                                      onPress={this.onPressBack}>
                         <Text style={styles.textButton}>-</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>
                         <Text style={styles.textButton}>0</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}
-                    onPress={() => {
-                        this.props.navigation.navigate('Camera')
-                    }}>
+                                      onPress={() => {
+                                          this.props.navigation.navigate('CameraRoute')
+                                      }}>
                         <Text style={styles.textButton}>-</Text>
                     </TouchableOpacity>
                 </View>

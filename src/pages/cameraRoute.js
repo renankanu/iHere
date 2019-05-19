@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 
-export default class Camera extends Component {
+export default class CameraRoute extends Component {
 
     takePicture = async function () {
         if (this.camera) {
@@ -20,8 +20,8 @@ export default class Camera extends Component {
                         this.camera = ref;
                     }}
                     style={styles.preview}
-                    type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
+                    type={RNCamera.Constants.Type.front}
+                    flashMode={RNCamera.Constants.FlashMode.off}
                     androidCameraPermissionOptions={{
                         title: 'Permission to use camera',
                         message: 'We need your permission to use your camera',

@@ -1,16 +1,16 @@
-import { createStackNavigator } from 'react-navigation';
+import {createStackNavigator} from 'react-navigation';
 
 import Main from './pages/main';
-import Camera from './pages/camera';
+import CameraRoute from './pages/cameraRoute';
 
 export default createStackNavigator({
     Main,
-    Camera
+    CameraRoute
 }, {
-        navigationOptions: {
-            headerStyle: {
-                backgroundColor: '#50007f'
-            },
-            headerTintColor: '#FFF'
-        }
-    });
+    navigationOptions: {
+        headerStyle: {
+            backgroundColor: '#50007f'
+        },
+        headerTintColor: '#FFF'
+    }
+});
