@@ -1,42 +1,74 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {RNCamera} from 'react-native-camera';
+import React, { Component } from 'react';
+import { Image, StyleSheet, Text, TouchableHighlight, View, Dimensions } from 'react-native';
+import { RNCamera as Camera } from 'react-native-camera';
 
 export default class CameraRoute extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            path: null,
+        };
+    }
 
-    takePicture = async function () {
-        if (this.camera) {
-            const options = {quality: 0.5, base64: true};
-            const data = await this.camera.takePictureAsync(options);
-            console.log(data.uri);
+    takePicture = async () => {
+        try {
+            const data = await this.camera.takePictureAsync();
+            this.setState({ path: data.uri });
+            // this.props.updateImage(data.uri);
+            console.log('Path to image: ' + data.uri);
+        } catch (err) {
+            console.log('err: ', err);
         }
     };
+
+    renderCamera() {
+        return (
+            <Camera
+                ref={(cam) => {
+                    this.camera = cam;
+                }}
+                style={styles.preview}
+                type={Camera.Constants.Type.front}
+                flashMode={Camera.Constants.FlashMode.off}
+                androidCameraPermissionOptions={{
+                    title: 'Permission to use camera',
+                    message: 'We need your permission to use your camera',
+                    buttonPositive: 'Ok',
+                    buttonNegative: 'Cancel',
+                }}
+            >
+                <TouchableHighlight
+                    style={styles.capture}
+                    onPress={this.takePicture.bind(this)}
+                    underlayColor="rgba(255, 255, 255, 0.5)"
+                >
+                    <View />
+                </TouchableHighlight>
+            </Camera>
+        );
+    }
+
+    renderImage() {
+        return (
+            <View style={styles.container}>
+                <Image
+                    source={{ uri: this.state.path }}
+                    style={styles.previewImage}
+                />
+                <Text
+                    style={styles.cancel}
+                    onPress={() => this.setState({ path: null })}
+                >Cancel
+                </Text>
+                <Text> {this.state.path} </Text>
+            </View>
+        );
+    }
 
     render() {
         return (
             <View style={styles.container}>
-                <RNCamera
-                    ref={ref => {
-                        this.camera = ref;
-                    }}
-                    style={styles.preview}
-                    type={RNCamera.Constants.Type.front}
-                    flashMode={RNCamera.Constants.FlashMode.off}
-                    androidCameraPermissionOptions={{
-                        title: 'Permission to use camera',
-                        message: 'We need your permission to use your camera',
-                        buttonPositive: 'Ok',
-                        buttonNegative: 'Cancel',
-                    }}
-                />
-                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
-                    <TouchableOpacity
-                        onPress={this.takePicture.bind(this)}
-                        style={styles.capture}
-                    >
-                        <Text style={{fontSize: 14}}> SNAP </Text>
-                    </TouchableOpacity>
-                </View>
+                {this.state.path ? this.renderImage() : this.renderCamera()}
             </View>
         );
     }
@@ -45,21 +77,38 @@ export default class CameraRoute extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: 'black'
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000',
     },
     preview: {
         flex: 1,
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width
+    },
+    previewImage: {
+        height: Dimensions.get('window').width,
+        width: Dimensions.get('window').height,
+        transform: [{ rotate: '-90deg' }],
+        
     },
     capture: {
-        flex: 0,
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        paddingHorizontal: 20,
-        alignSelf: 'center',
-        margin: 20
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        borderWidth: 5,
+        borderColor: '#FFF',
+        marginBottom: 15,
+    },
+    cancel: {
+        position: 'absolute',
+        right: 20,
+        top: 20,
+        backgroundColor: 'transparent',
+        color: '#FFF',
+        fontWeight: '600',
+        fontSize: 17,
     }
 });
